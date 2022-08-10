@@ -218,6 +218,7 @@ export default class ReconnectingWebSocket {
     public close(code = 1000, reason?: string) {
         this._closeCalled = true;
         this._shouldReconnect = false;
+        this._connectLock = false;
         this._clearTimeouts();
         if (!this._ws) {
             this._debug('close enqueued: no ws instance');
@@ -235,6 +236,7 @@ export default class ReconnectingWebSocket {
      * Resets retry counter;
      */
     public reconnect(code?: number, reason?: string) {
+        this._debug('reconnect', { code, reason })
         this._shouldReconnect = true;
         this._closeCalled = false;
         this._retryCount = -1;
@@ -361,6 +363,8 @@ export default class ReconnectingWebSocket {
 
         if (this._retryCount >= maxRetries) {
             this._debug('max retries reached', this._retryCount, '>=', maxRetries);
+            this._shouldReconnect = false;
+            this._connectLock = false;
             return;
         }
 
