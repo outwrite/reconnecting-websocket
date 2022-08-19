@@ -1,5 +1,6 @@
 {
-    "name": "reconnecting-websocket",
+    "name": "@outwrite/reconnecting-websocket",
+    "private": true,
     "version": "4.4.0",
     "description": "Reconnecting WebSocket",
     "main": "./dist/reconnecting-websocket-cjs.js",
